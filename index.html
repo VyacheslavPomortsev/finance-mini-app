@@ -18,6 +18,17 @@
       border-radius: 12px;
       margin-bottom: 12px;
     }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      background: #2a9d8f;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
     input, select {
       width: 100%;
       padding: 10px;
@@ -26,27 +37,27 @@
       border: 1px solid #ccc;
       font-size: 16px;
     }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      border-radius: 8px;
-      border: none;
-      background: #2a9d8f;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>➕ Добавить расход</h2>
+<!-- МЕНЮ -->
+<div id="menu" class="card">
+  <h2>💰 Финансовый помощник</h2>
+  <button onclick="openExpense()">➕ Расход</button>
+  <button onclick="openIncome()">💰 Доход</button>
+</div>
+
+<!-- ФОРМА -->
+<div id="form" class="card hidden">
+  <h2 id="form-title"></h2>
 
   <input id="amount" type="number" placeholder="Сумма, ₽" />
-  
+
   <select id="category">
     <option value="еда">🍔 Еда</option>
     <option value="транспорт">🚕 Транспорт</option>
@@ -55,7 +66,8 @@
     <option value="прочее">🧾 Прочее</option>
   </select>
 
-  <button onclick="sendExpense()">Сохранить</button>
+  <button onclick="submitForm()">Сохранить</button>
+  <button onclick="back()">⬅️ Назад</button>
 </div>
 
 <script>
@@ -63,7 +75,30 @@
   tg.ready();
   tg.expand();
 
-  async function sendExpense() {
+  let currentType = null;
+
+  function openExpense() {
+    currentType = "expense";
+    showForm("➕ Добавить расход");
+  }
+
+  function openIncome() {
+    currentType = "income";
+    showForm("💰 Добавить доход");
+  }
+
+  function showForm(title) {
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("form").classList.remove("hidden");
+    document.getElementById("form-title").innerText = title;
+  }
+
+  function back() {
+    document.getElementById("form").classList.add("hidden");
+    document.getElementById("menu").classList.remove("hidden");
+  }
+
+  async function submitForm() {
     const amount = document.getElementById("amount").value;
     const category = document.getElementById("category").value;
 
@@ -72,11 +107,9 @@
       return;
     }
 
-    await fetch("https://unclearly-unleft-grant.ngrok-free.dev/expense", {
+    await fetch("https://unclearly-unleft-grant.ngrok-free.dev/" + currentType, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         amount: amount,
         category: category,
@@ -84,10 +117,12 @@
       })
     });
 
-    tg.showAlert("✅ Расход сохранён");
+    alert("✅ Сохранено");
+    back();
   }
 </script>
 
 </body>
 </html>
+
 
