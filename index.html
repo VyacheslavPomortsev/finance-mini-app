@@ -50,16 +50,47 @@
   tg.ready();
   tg.expand();
 
-  function sendExpense() {
-    alert("Расход: кнопка нажата");
-    tg.sendData(JSON.stringify({ type: "expense" }));
-    tg.close();
+  async function sendExpense() {
+    const res = await fetch(
+      "https://unclearly-unleft-grant.ngrok-free.dev/expense",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          amount: 500,
+          category: "food"
+        })
+      }
+    );
+
+    if (res.ok) {
+      alert("✅ Расход добавлен");
+    } else {
+      alert("❌ Ошибка добавления расхода");
+    }
   }
 
-  function sendIncome() {
-    alert("Доход: кнопка нажата");
-    tg.sendData(JSON.stringify({ type: "income" }));
-    tg.close();
+  async function sendIncome() {
+    const res = await fetch(
+      "https://unclearly-unleft-grant.ngrok-free.dev/income",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          amount: 5000
+        })
+      }
+    );
+
+    if (res.ok) {
+      alert("✅ Доход добавлен");
+    } else {
+      alert("❌ Ошибка добавления дохода");
+    }
   }
 </script>
 
