@@ -47,20 +47,22 @@
 
 <script>
   const tg = window.Telegram.WebApp;
+  tg.ready();
   tg.expand();
 
   function sendExpense() {
-    tg.sendData(JSON.stringify({
-      type: "expense"
-    }));
+    alert("Расход: кнопка нажата");
+    tg.sendData(JSON.stringify({ type: "expense" }));
+    tg.close();
   }
 
   function sendIncome() {
-    tg.sendData(JSON.stringify({
-      type: "income"
-    }));
+    alert("Доход: кнопка нажата");
+    tg.sendData(JSON.stringify({ type: "income" }));
+    tg.close();
   }
 </script>
+
 
 </body>
 </html>
