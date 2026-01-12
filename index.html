@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <title>Финансовый помощник</title>
+
+  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -25,9 +28,11 @@
       background: #2a9d8f;
       color: white;
       font-size: 16px;
+      cursor: pointer;
     }
   </style>
 </head>
+
 <body>
 
 <div class="card">
@@ -36,22 +41,29 @@
 </div>
 
 <div class="card">
-  <button onclick="addExpense()">➕ Добавить расход</button>
-  <button onclick="addIncome()">💰 Добавить доход</button>
+  <button onclick="sendExpense()">➕ Добавить расход</button>
+  <button onclick="sendIncome()">💰 Добавить доход</button>
 </div>
 
 <script>
   const tg = window.Telegram.WebApp;
   tg.expand();
 
-  function addExpense() {
-    tg.sendData(JSON.stringify({ action: "expense" }));
+  function sendExpense() {
+    tg.sendData(JSON.stringify({
+      type: "expense"
+    }));
   }
 
-  function addIncome() {
-    tg.sendData(JSON.stringify({ action: "income" }));
+  function sendIncome() {
+    tg.sendData(JSON.stringify({
+      type: "income"
+    }));
   }
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
